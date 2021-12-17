@@ -1,7 +1,7 @@
 # Introduction
 
 In this repo you'll find the support code for the development of the Project `sc::vector`.
-The description of the assignment may be found [**here](docs/projeto_TAD_vector.pdf).
+The description of the assignment may be found [**here**](docs/projeto_TAD_vector.pdf).
 
 # Organization
 
