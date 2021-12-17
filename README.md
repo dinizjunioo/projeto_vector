@@ -1,6 +1,7 @@
 # Introduction
 
-This programming project provides unit tests for the `sc::vector<>` class.
+In this repo you'll find the support code for the development of the Project `sc::vector`.
+The description of the assignment may be found [**here](docs/projeto_TAD_vector.pdf).
 
 # Organization
 
@@ -11,7 +12,7 @@ The folders and files of this project are the following:
 * `source/include`: This is the folder in which you should add the `vector.h` file with your solution (i.e. the implementation of the class `sc::vector`).
 * `source/CMakeLists.txt: The cmake script file.
 * `README.md`: This file.
-* `docs`: This folder has a pdf describing the vector project.
+* `docs`: This folder has a [pdf file](docs/projeto_TAD_vector.pdf) describing the vector project.
 
 # Compiling
 
