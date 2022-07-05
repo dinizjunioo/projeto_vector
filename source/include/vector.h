@@ -75,6 +75,7 @@ namespace sc {
         }
         self_type& operator-=(difference_type offset) {
             // TODO
+
             self_type dummy;
             return dummy;
         }
@@ -296,7 +297,7 @@ namespace sc {
         const_reference back(void) const;
         const_reference front(void) const;
         reference back(void);
-        reference front(void) {  return m_storage[0]; }
+        reference front(void);// {  return m_storage[0]; }
         const_reference operator[](size_type) const;
         reference operator[](size_type);
         const_reference at(size_type) const;

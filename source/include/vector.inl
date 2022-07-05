@@ -13,7 +13,7 @@ namespace sc {
     template < typename T >
     typename vector<T>::iterator  vector<T>::end(void)
     {
-        return iterator(&m_storage[(m_capacity * sizeof(T))++]);
+        return iterator(&m_storage[m_end]);
     }
 
     template < typename T >
@@ -25,7 +25,7 @@ namespace sc {
     template < typename T >
     typename vector<T>::const_iterator  vector<T>::cend(void) const
     {
-        return const_iterator(&m_storage[(m_capacity * sizeof(T))++]);
+        return const_iterator(&m_storage[m_end]);
     }
 
     //===============================================================
@@ -41,7 +41,7 @@ namespace sc {
     template < typename T >
     typename vector<T>::size_type  vector<T>::capacity(void) const
     {
-        return (m_capacity * sizeof(T));
+        return m_capacity;
     }
 
     template < typename T >
@@ -54,7 +54,15 @@ namespace sc {
     template < typename T >
     void vector<T>::clear(void)
     {
-         m_end = 0;
+        //for (auto p = m_storage[0]; p != m_storage[m_end]; ++p)
+        //    p.~T();
+        //m_end = 0;
+        
+        while (m_end != 0)
+        {
+            m_storage[m_end].~T();
+            m_end--;
+        }
     }
 
     template < typename T >
@@ -74,8 +82,7 @@ namespace sc {
             goto final;
         }
         else {
-            //auto size = this->size();
-            //auto new_storage = static_cast <T*>(operator new (new_capacity * sizeof(T)));
+      
             auto new_storage = std::make_unique<T[]>(new_capacity * sizeof(T));
 
             for (auto i = 0; i < m_end; ++i)
@@ -135,7 +142,11 @@ namespace sc {
     template < typename T >
     void vector<T>::pop_front(void)
     {
-        //...
+        if (m_end > 0)
+        {
+            m_storage[0].~T();
+            m_end--;
+        }
     }
 
     //=============================================================================
@@ -144,7 +155,7 @@ namespace sc {
     template < typename T >
     typename vector<T>::reference vector<T>::operator[](size_type index)
     {
-        assert(index >= 0 && index < m_end);
+        //assert(index >= 0 && index < m_end);
         return m_storage[index];
     }
 
@@ -154,29 +165,33 @@ namespace sc {
         assert(index >= 0 && index < m_end);
         return m_storage[index];
     }
-
+    /*
     template < typename T >
     typename vector<T>::const_reference vector<T>::back(void) const
     {
-
+        std::cout << "a";
+        return *cend();
     }
 
+    
     template < typename T >
     typename vector<T>::const_reference vector<T>::front(void) const
     {
-        //return const_reference(m_storage[0]);
+        return *cbegin();
     }
 
     template < typename T >
     typename vector<T>::reference vector<T>::back(void) 
     {
-
+        return *(end());
+        // deveria ser end() -1
     }
-
-   // template < typename T >
+    */
+    //template < typename T >
     //typename vector<T>::reference vector<T>::front(void) 
-   // {
-        //return reinterpret_cast<reference>&m_storage[0];
+    //{
+     //   return reference;// (m_storage[0]);
+    //    
     //}
 
     template < typename T >
@@ -220,13 +235,27 @@ namespace sc {
 
 
     template<typename T>
-    inline void vector<T>::emplace_back(reference&)
+    inline void vector<T>::emplace_back(reference& args)
     {
+        // refazer depois
+        if (m_end >= m_capacity)
+            reserve(m_capacity + m_capacity / 2);
+
+        auto new_storage = std::make_unique<T[]>(std::forward<T>(args));
+        ++m_end;
+        return *new_storage;
     }
 
     template<typename T>
-    inline void vector<T>::emplace_back(const_reference&)
+    inline void vector<T>::emplace_back(const_reference& args)
     {
+        // refazer depois
+        if (m_end >= m_capacity)
+            reserve(m_capacity + m_capacity / 2);
+
+        auto new_storage = std::make_unique<T[]>(std::forward<T>(args));
+        ++m_end;
+        return *new_storage;
     }
 
     template<typename T>

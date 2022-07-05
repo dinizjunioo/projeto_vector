@@ -110,6 +110,7 @@ void run_regular_vector_tests(const std::array<T, S>& values, const std::array<T
         // Calling the constructor based on an anonymous list.
         which_lib::vector<T> vec{ values[0], values[1], values[2], values[3], values[4] };
 
+
         EXPECT_EQ(vec.size(), 5);
         EXPECT_FALSE(vec.empty());
 
